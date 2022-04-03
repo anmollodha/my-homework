@@ -1,0 +1,109 @@
+#Question 1
+
+#Read the file numbers.txt
+f=open("numbers.txt","r")
+print(f.read())
+
+f=open('numbers.txt','r')
+data=f.readlines()
+data_list=[]
+for line in data:
+    data_list = data_list +line.strip().split(',')
+print(data_list)
+
+
+#Find the frequency of each distinct element using a dictionary
+distinct_elements ={}
+for item in data_list:
+    if item in distinct_elements.keys():
+        distinct_elements[item]+=1
+    else:
+        distinct_elements[item]=1
+        
+print(distinct_elements)
+
+#Plot the frequency results using a histogram
+import matplotlib.pyplot as plt
+import numpy as np
+
+x=data_list
+plt.hist(x)
+plt.show()
+
+#store the dictionary results into json file and store it on your local computer
+import json
+y = json.dumps(distinct_elements)
+print(y)
+
+#Question 2
+
+#import amazon-orders.csv as panda
+import pandas as pd
+
+df=pd.read_csv('amazon-orders.csv')
+df.head(77)
+
+df.shape
+
+df=df.fillna(0)
+df.head()
+
+#sum
+df["Total Charged"].sum()
+
+#average
+df["Total Charged"].mean()
+
+#max
+df["Total Charged"].max()
+
+#min
+df["Total Charged"].min()
+
+#standard deviation
+df["Total Charged"].std()
+
+#median
+df[“Total Charged”].median()
+
+#Monthly Summary
+import datetime
+df["Month"]=pd.DatetimeIndex(df["Order Date"]).month
+monthlySummary = df.groupby("Month")["Total Charged"].describe()
+print(monthlySummary)
+
+df['Order Date']=pd.to_datetime(df['Order Date'])
+df.head()
+
+#bar chart
+df.plot.bar(x='Order Date', y='Total Charged', rot=90,figsize=(20,10))
+
+daily_orders = df.groupby('Order Date').sum()["Total Charged"]
+daily_orders.head(77)
+
+daily_orders.plot.bar(figsize=(20,10))
+
+#Pie Chart - Consumption per Year
+import matplotlib.pyplot as plt
+import numpy as np
+
+y=np.array([112.85,471.26,1085.15,511.39,158.99])
+mylabels=['2018','2019','2020','2021','2022']
+mycolors=['b','g','r','c','m']
+
+plt.pie(y,labels=mylabels,colors=mycolors)
+plt.legend(bbox_to_anchor=(1.25,1.0),loc='upper right')
+plt.show()
+
+#Individual Orders between 2018 and 2019
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+x1 = np.array([1,2,3,4,5,6,7])
+y1 = np.array([10.59,20.99,8.73,9.32,55.08,5.08,9.53])
+x2 = np.array([1,2,3,4,5,6,7,8,9,10,11,12])
+y2 = np.array([74.68,73.06,12.29,25.96,28.90,37.71,13.73,33.55,36.49,10.57,28.33,105.99])
+
+plt.plot(x1,y1,x2,y2)
+plt.show()
